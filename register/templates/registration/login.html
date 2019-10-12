@@ -1,0 +1,10 @@
+{% extends 'stocks/base.html'%}
+
+{% block content %}
+  <form class='form-group' method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" name="button">Login</button>
+    <p>Click to create account here: <a href="/register">Here</a></p>
+  </form>
+{% endblock %}

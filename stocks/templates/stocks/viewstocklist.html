@@ -1,0 +1,17 @@
+{% extends 'stocks/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<h1>List of stock profiles you are keeping track of</h1>
+  <a href="/create">Make new list</a>
+  <br>
+  {% for stock in user.stocklist.all %}
+    <p>{{ stock.name }} <a href="/addtolist/{{stock.id}}">Add Stock to List</a></p>
+    {% for s in stock.stock_set.all %}
+      <li> {{ s.company }} {{ s.price }}</li>
+    {% endfor %}
+  {% endfor %}
+{% else %}
+  <a href="/login">Not logged in, Login</a>
+{% endif %}
+{% endblock %}

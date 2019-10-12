@@ -1,0 +1,14 @@
+{% extends 'stocks/base.html' %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p}}
+      <button type="submit">Submit</button>
+    </form>
+
+  {% else %}
+    <p>You are not logged in</p><a href="/login">Login</a>
+  {% endif %}
+{% endblock %}
