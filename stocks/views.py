@@ -28,7 +28,7 @@ def create(response):
             stocklist = StockList(name=name)
             stocklist.save()
             response.user.stocklist.add(stocklist)
-            return render(response, 'stocks/home.html')
+            return render(response, 'stocks/viewstocklist.html')
     else:
         form = CreateNewStockList()
     return render(response, "stocks/create.html", {"form": form})
@@ -92,6 +92,37 @@ def parseData(data):
 
     return price
 
+def parseFirstAndSecondPrice(data):
+    meta_data_count = 0
+    count = 0
+    responseJSON = data.json()
+    for key1, value1 in responseJSON.items():
+        if meta_data_count == 1:
+            for key3, value3 in value1.items():
+                if count == 0:
+                    for key4, value4 in value3.items():
+                        if key4 == '4. close':
+                            curr_price = value4
+                if count == 1:
+                    for key5, value5 in value3.items():
+                        if key5 == '4. close':
+                            prev_price = value5
+                            break
+                count +=1
+        if meta_data_count > 1:
+            break
+        meta_data_count+= 1
+
+    percentage_diff = calcDifference(curr_price, prev_price)
+
+    return percentage_diff
+
+def calcDifference(curr_price, prev_price):
+        dec = prev_price - curr_price
+        percentage_diff = (dec / original) * 100
+
+        return percentage_diff
+
 def isValid(response):
     if response is None:
         return False
@@ -120,15 +151,16 @@ def findCompany(symbol):
     print(company)
     return company
 
+##### SEND SMS ##### (CAN USE IN ANY APPLICATION WITH RING CENTRAL API)
 def sendSMS():
 
-    RECIPIENT = '16479958354'
+    RECIPIENT = '16477023787'
 
-    RINGCENTRAL_CLIENTID = '2S1C-6pgQHCoEZ1MUyjp8A'
-    RINGCENTRAL_CLIENTSECRET = 'mo-HR_sDQNqZpwfiyVeBEwYchILMcCRv6uBIWZqMqzaQ'
+    RINGCENTRAL_CLIENTID = 'ytNEYQCjS86w1BIYgIZNng'
+    RINGCENTRAL_CLIENTSECRET = 'UU_Bm0yxT0SRaoQy3lSbggUozARI4lRe-6RNuuM1eWig'
     RINGCENTRAL_SERVER = 'https://platform.devtest.ringcentral.com'
 
-    RINGCENTRAL_USERNAME = '14087081993'
+    RINGCENTRAL_USERNAME = '+12055824832'
     RINGCENTRAL_PASSWORD = 'Pokemon1029!'
     RINGCENTRAL_EXTENSION = '101'
 
@@ -140,7 +172,7 @@ def sendSMS():
                   {
                       'from' : { 'phoneNumber': RINGCENTRAL_USERNAME },
                       'to'   : [ {'phoneNumber': RECIPIENT} ],
-                      'text' : 'Hello World from Python'
+                      'text' : 'Hey gurlllllll'
                   })
 
 ################ END HELPER FUNCTIONS ################
