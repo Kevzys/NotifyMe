@@ -6,5 +6,8 @@ urlpatterns = [
     path('home/<int:id>', views.home, name='home'),
     path('create/', views.create, name='create'),
     path('viewstocklist/', views.view_list, name='view'),
-    path('addtolist/<int:id>', views.addToList, name='addstock')
+    path('addtolist/<int:id>', views.addToList, name=''),
+    path('removelist/<int:id>', views.removelist, name='removelist'),
+    path('removestock/<int:id>/<str:symbol>', views.removestock, name='removestock'),
+
 ]

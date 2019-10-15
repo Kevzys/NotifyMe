@@ -6,9 +6,13 @@
   <a href="/create">Make new list</a>
   <br>
   {% for stock in user.stocklist.all %}
-    <p>{{ stock.name }} <a href="/addtolist/{{stock.id}}">Add Stock to List</a></p>
+    <p>{{ stock.name }}
+      <a href="/addtolist/{{stock.id}}">Add Stock to List</a>
+      <a href="/removelist/{{stock.id}}">Remove List</a>
+    </p>
     {% for s in stock.stock_set.all %}
       <li> {{ s.company }} {{ s.price }}</li>
+      <a href="/removestock/{{stock.id}}/{{s.symbol}}">Remove Stock</a>
     {% endfor %}
   {% endfor %}
 {% else %}

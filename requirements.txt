@@ -1,5 +1,6 @@
 appdirs==1.4.3
 appnope==0.1.0
+APScheduler==3.6.1
 asn1crypto==0.24.0
 astroid==2.0.4
 atomicwrites==1.3.0
@@ -20,6 +21,7 @@ decorator==4.4.0
 defusedxml==0.6.0
 dj-database-url==0.5.0
 Django==2.2
+django-apscheduler==0.3.0
 django-cors-headers==3.0.2
 django-crispy-forms==1.7.2
 django-debug-toolbar==1.11
@@ -115,6 +117,7 @@ sqlparse==0.3.0
 text-unidecode==1.2
 toml==0.10.0
 traitlets==4.3.2
+tzlocal==2.0.0
 urllib3==1.24.3
 virtualenv==16.0.0
 virtualenv-clone==0.3.0

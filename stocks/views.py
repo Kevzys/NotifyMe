@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Stock, StockList
 from .forms import CreateNewStockList, CreateNewStock
+
+from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+
 from ringcentral import SDK
 import requests, json
 
@@ -33,9 +37,27 @@ def create(response):
         form = CreateNewStockList()
     return render(response, "stocks/create.html", {"form": form})
 
+#VIEW LIST
 def view_list(response):
-    print(response.user.stocklist.all())
     return render(response, 'stocks/viewstocklist.html', {})
+
+
+#DELETE LIST
+def removelist(response, id):
+    stocklist = StockList.objects.get(id=id)
+    if stocklist in response.user.stocklist.all():
+        response.user.stocklist.filter(id=id).delete()
+        return render(response, 'stocks/viewstocklist.html')
+
+
+
+#DELETE STOCK FROM LIST
+def removestock(response, id, symbol):
+    stocklist = StockList.objects.get(id=id)
+    if stocklist in response.user.stocklist.all():
+        s = response.user.stocklist.get(id=id)
+        s.stock_set.filter(symbol=symbol).delete()
+        return render(response, 'stocks/viewstocklist.html')
 
 # ADD STOCK TO LIST
 def addToList(response, id):
@@ -54,8 +76,8 @@ def addToList(response, id):
                     valid = 'Added to list'
                     s = response.user.stocklist.get(id=id)
                     s.stock_set.create(company=company, symbol=symbol, price=currPrice)
-                    sendSMS()
-                    return render(response, 'stocks/addstock.html', {"valid": valid, "form": form})
+                    #sendSMS()
+                    return render(response, 'stocks/viewstocklist.html')
 
                 else:
                     valid = 'Symbol could not be recognized, try again.'
@@ -64,6 +86,14 @@ def addToList(response, id):
             form = CreateNewStock()
         return render(response, 'stocks/addstock.html', {"form": form})
     return
+
+'''
+def removeList(response, id):
+    stocklist = StockList.objects.get(id=id)
+    if stocklist in response.user.stocklist.all():
+        StockList.objects.remove(id=id)
+        return render(response, 'stocks/viewstockslist.html')
+'''
 
 #################### HELPER FUNCTIONS ################
 def findStock(response, symbol):
@@ -91,7 +121,7 @@ def parseData(data):
         meta_data_count+= 1
 
     return price
-
+'''
 def parseFirstAndSecondPrice(data):
     meta_data_count = 0
     count = 0
@@ -116,7 +146,7 @@ def parseFirstAndSecondPrice(data):
     percentage_diff = calcDifference(curr_price, prev_price)
 
     return percentage_diff
-
+'''
 def calcDifference(curr_price, prev_price):
         dec = prev_price - curr_price
         percentage_diff = (dec / original) * 100
@@ -148,13 +178,12 @@ def findCompany(symbol):
         return ''
     y = x[0]
     company = y['2. name']
-    print(company)
     return company
 
 ##### SEND SMS ##### (CAN USE IN ANY APPLICATION WITH RING CENTRAL API)
 def sendSMS():
 
-    RECIPIENT = '16477023787'
+    RECIPIENT = '16479958354'
 
     RINGCENTRAL_CLIENTID = 'ytNEYQCjS86w1BIYgIZNng'
     RINGCENTRAL_CLIENTSECRET = 'UU_Bm0yxT0SRaoQy3lSbggUozARI4lRe-6RNuuM1eWig'
