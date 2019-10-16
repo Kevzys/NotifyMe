@@ -2,26 +2,33 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>List of stock profiles you are keeping track of</h1>
+<div class="jumbotron">
+  <h1 class="display-4">Your stock list</h1>
+</div>
   <a href="/create">Make new list</a>
   <br>
+
   {% for stock in user.stocklist.all %}
-    <p>{{ stock.name }}
+    <h3>{{ stock.name }}</h3>
       <a href="/addtolist/{{stock.id}}">Add Stock to List</a>
       <a href="/removelist/{{stock.id}}">Remove List</a>
-    </p>
-    {% for s in stock.stock_set.all %}
-      <li> {{ s.company }} {{ s.price }}</li>
-      <a href="/removestock/{{stock.id}}/{{s.symbol}}">Remove Stock</a>
-    {% endfor %}
+
+
+    <div class="row">
+      {% for s in stock.stock_set.all %}
+        <div class="col-sm-4">
+          <div class="card" style="width: 24rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{s.company}}</h5>
+              <p class="card-text">${{s.price}}</p>
+              <a href="/removestock/{{stock.id}}/{{s.symbol}}" class="btn btn-primary">Remove Stock</a>
+            </div>
+          </div>
+        </div>
+
+      {% endfor %}
+    </div>
   {% endfor %}
-
-  <!-- ... existing HTML ... -->
-
-  <div id="like_button_container"></div>
-
-  <!-- ... existing HTML ... -->
-
 
 {% else %}
   <a href="/login">Not logged in, Login</a>

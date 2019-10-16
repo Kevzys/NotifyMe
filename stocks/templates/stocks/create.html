@@ -2,10 +2,18 @@
 
 {% block content %}
   {% if user.is_authenticated %}
+  <div class="jumbotron">
+    <h1>Create List</h1>
+  </div>
     <form method="post">
-      {% csrf_token %}
-      {{ form.as_p}}
-      <button type="submit">Submit</button>
+      <div class="form-group">
+        {% csrf_token %}
+        {{form}}
+        <small class="form-text text-muted">Enter form name here.</small>
+        <p></p>
+        <br>
+        <button type="submit" class="btn btn-outline-primary">Submit</button>
+      </div>
     </form>
 
   {% else %}

@@ -2,6 +2,9 @@
 
 {% block content %}
   {% if user.is_authenticated %}
+  <div class="jumbotron">
+    <h1>Add Stock</h1>
+  </div>
     <form method="post">
       {% csrf_token %}
       {{form.as_p}}
