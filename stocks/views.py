@@ -40,7 +40,11 @@ def create(response):
 #VIEW LIST
 #EVERYTIME VIEW LIST IS CALLED, THE STOCK PRICES ARE UPDATED
 def view_list(response):
-    updateStocksDataForAllUsers()
+    date = datetime.now()
+    hour = int(date.strftime("%H"))
+    hour = hour - 6
+    if hour < 16:
+        updateStocksDataForAllUsers()
     return render(response, 'stocks/viewstocklist.html', {})
 
 def updateStocksDataForAllUsers():
