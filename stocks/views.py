@@ -38,10 +38,39 @@ def create(response):
     return render(response, "stocks/create.html", {"form": form})
 
 #VIEW LIST
+#EVERYTIME VIEW LIST IS CALLED, THE STOCK PRICES ARE UPDATED
 def view_list(response):
+    updateStocksDataForAllUsers()
     return render(response, 'stocks/viewstocklist.html', {})
 
+def updateStocksDataForAllUsers():
 
+    count = 0
+    for stocklist in StockList.objects.all():
+        for stocks in stocklist.stock_set.all():
+            if count < 4: #limited access
+                updateStockInfo(stocks)
+            count += 1
+
+
+def updateStockInfo(stock):
+    start = 'https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol='
+    symbol = stock.symbol
+    end = '&apikey=6H75Z4MUU2EOD3H1'
+
+    fetch = start + symbol + end
+
+    data = requests.get(fetch)
+    valid = isValid(data)
+    if valid == True:
+        dataJSON = data.json()
+        for key1, value1 in dataJSON.items():
+            for key2, value2 in value1.items():
+                if key2 == '05. price':
+                    print('Price: ' + value2)
+                    stock.price = value2
+                    stock.save()
+    return
 #DELETE LIST
 def removelist(response, id):
     stocklist = StockList.objects.get(id=id)
@@ -86,14 +115,6 @@ def addToList(response, id):
             form = CreateNewStock()
         return render(response, 'stocks/addstock.html', {"form": form})
     return
-
-'''
-def removeList(response, id):
-    stocklist = StockList.objects.get(id=id)
-    if stocklist in response.user.stocklist.all():
-        StockList.objects.remove(id=id)
-        return render(response, 'stocks/viewstockslist.html')
-'''
 
 #################### HELPER FUNCTIONS ################
 def findStock(response, symbol):
@@ -159,6 +180,7 @@ def isValid(response):
     else:
         responseJSON = response.json()
         list_json = list(responseJSON)
+        print(list_json)
         if list_json[0] == 'Error Message':
             return False
         else:
@@ -179,6 +201,7 @@ def findCompany(symbol):
     y = x[0]
     company = y['2. name']
     return company
+
 
 ##### SEND SMS ##### (CAN USE IN ANY APPLICATION WITH RING CENTRAL API)
 def sendSMS():
