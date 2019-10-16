@@ -1,5 +1,11 @@
 from . import views
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
+from .api import StockViewSet, StockListViewSet
+
+router = routers.DefaultRouter()
+router.register('api/stocks', StockViewSet, 'stocks')
+router.register('api/stocklist', StockListViewSet, 'stocklist')
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -9,5 +15,5 @@ urlpatterns = [
     path('addtolist/<int:id>', views.addToList, name=''),
     path('removelist/<int:id>', views.removelist, name='removelist'),
     path('removestock/<int:id>/<str:symbol>', views.removestock, name='removestock'),
-
+    path('', include(router.urls)),
 ]

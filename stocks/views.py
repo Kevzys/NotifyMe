@@ -17,7 +17,7 @@ def index(response):
 def home(response, id):
     stocklist = StockList.objects.get(id=id)
     if stocklist in response.user.stocklist.all():
-        return render(response, "stocks/list.html", {"stocklist": stocklist})
+        return render(response, "stocks/viewstocklist.html", {"stocklist": stocklist})
     else:
         pass
     return render(response, "stocks/viewlist.html")

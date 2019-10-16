@@ -1,0 +1,20 @@
+{
+  "name": "NotifyMe",
+  "version": "1.0.0",
+  "description": "This Application will send you a notification when the price of a certain stock changes by a certain percentage within an hour.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kevzys/NotifyMe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kevzys/NotifyMe/issues"
+  },
+  "homepage": "https://github.com/Kevzys/NotifyMe#readme"
+}

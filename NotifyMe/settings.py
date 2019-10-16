@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'stocks.apps.StocksConfig',
     'register.apps.RegisterConfig',
     'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
