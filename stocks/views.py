@@ -75,6 +75,8 @@ def updateStockInfo(stock):
                     stock.price = value2
                     stock.save()
     return
+
+
 #DELETE LIST
 def removelist(response, id):
     stocklist = StockList.objects.get(id=id)
