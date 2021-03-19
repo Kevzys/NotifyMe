@@ -37,7 +37,7 @@ django-storages==1.7.1
 django-taggit==1.1.0
 django-taggit-serializer==0.1.7
 django-templated-mail==1.1.1
-djangorestframework==3.9.2
+djangorestframework==3.11.2
 djangorestframework-simplejwt==4.3.0
 djoser==1.5.1
 docusign-esign==1.0.3
