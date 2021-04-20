@@ -84,7 +84,7 @@ pluggy==0.12.0
 prompt-toolkit==2.0.9
 ptyprocess==0.6.0
 pubnub==4.1.6
-py==1.8.0
+py==1.10.0
 py-oauth2==0.0.10
 pycodestyle==2.5.0
 pycparser==2.18
